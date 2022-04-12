@@ -1,17 +1,45 @@
+import { FormEvent, useRef } from 'react';
 import { CompanyType } from '../../types/types';
 import Card from '../UI/Card';
 
-const CompanyEdit = (props: CompanyType) => {
+type CompanyEditFormProps = {
+  data: CompanyType;
+  // eslint-disable-next-line
+  onEditCompany(enteredData: any): any;
+};
+
+const CompanyEdit = (props: CompanyEditFormProps) => {
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const countryInputRef = useRef<HTMLInputElement>(null);
+  const foundingDateInputRef = useRef<HTMLInputElement>(null);
+  const descriptionInputRef = useRef<HTMLTextAreaElement>(null);
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const enteredName = nameInputRef.current?.value;
+    const enteredCountry = countryInputRef.current?.value;
+    const enteredFoundingDate = foundingDateInputRef.current?.value;
+    const enteredDescription = descriptionInputRef.current?.value;
+    const data = {
+      name: enteredName,
+      country: enteredCountry,
+      foundingDate: enteredFoundingDate,
+      description: enteredDescription,
+    };
+    props.onEditCompany(data);
+  };
+
   return (
     <Card>
-      <form>
+      <form onSubmit={submitHandler}>
         <div>
           <label htmlFor='name'></label>
           <input
             type='text'
             required
             id='name'
-            placeholder={props.name !== null ? props.name : undefined}
+            placeholder={props.data.name !== null ? props.data.name : undefined}
+            ref={nameInputRef}
           />
         </div>
         <div>
@@ -19,7 +47,10 @@ const CompanyEdit = (props: CompanyType) => {
           <input
             type='text'
             id='country'
-            placeholder={props.country !== null ? props.country : undefined}
+            placeholder={
+              props.data.country !== null ? props.data.country : undefined
+            }
+            ref={countryInputRef}
           />
         </div>
         <div>
@@ -28,8 +59,11 @@ const CompanyEdit = (props: CompanyType) => {
             type='text'
             id='founding_date'
             placeholder={
-              props.founding_date !== null ? props.founding_date : undefined
+              props.data.founding_date !== null
+                ? props.data.founding_date
+                : undefined
             }
+            ref={foundingDateInputRef}
           />
         </div>
         <div>
@@ -37,9 +71,12 @@ const CompanyEdit = (props: CompanyType) => {
           <textarea
             id='description'
             placeholder={
-              props.description !== null ? props.description : undefined
+              props.data.description !== null
+                ? props.data.description
+                : undefined
             }
             rows={5}
+            ref={descriptionInputRef}
           />
         </div>
       </form>
