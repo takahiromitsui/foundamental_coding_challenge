@@ -67,40 +67,40 @@ def init_deals_db(db: Session = Depends(get_db)):
 
 @router.get("/init_db")
 async def init_db(db: Session = Depends(get_db)):
-    db.execute(sqlalchemy.schema.CreateSchema("app"))
+    # db.execute(sqlalchemy.schema.CreateSchema("app"))
     db.execute(sqlalchemy.text("USE app;"))
 
-    create_companies = sqlalchemy.text(
-        """
-    create table companies
-    (
-    id int auto_increment primary key,
-    name          char(255) null,
-    country       char(255) null,
-    founding_date datetime  null,
-    description   text      null,
-    constraint companies_id_uindex
-    unique (id)
-    );
-    """
-    )
+    # create_companies = sqlalchemy.text(
+    #     """
+    # create table companies
+    # (
+    # id int auto_increment primary key,
+    # name          char(255) null,
+    # country       char(255) null,
+    # founding_date datetime  null,
+    # description   text      null,
+    # constraint companies_id_uindex
+    # unique (id)
+    # );
+    # """
+    # )
 
-    create_deals = sqlalchemy.text(
-        """
-    create table deals
-    (
-    id int auto_increment primary key,
-    date           datetime  null,
-    funding_amount float     null,
-    funding_round  char(255) null,
-    company_id     int       null,
-    constraint deals_id_uindex
-    unique (id)
-    );
-    """
-    )
+    # create_deals = sqlalchemy.text(
+    #     """
+    # create table deals
+    # (
+    # id int auto_increment primary key,
+    # date           datetime  null,
+    # funding_amount float     null,
+    # funding_round  char(255) null,
+    # company_id     int       null,
+    # constraint deals_id_uindex
+    # unique (id)
+    # );
+    # """
+    # )
 
-    db.execute(create_companies)
-    db.execute(create_deals)
-    init_company_db(db)
-    init_deals_db(db)
+    # db.execute(create_companies)
+    # db.execute(create_deals)
+    # init_company_db(db)
+    # init_deals_db(db)
