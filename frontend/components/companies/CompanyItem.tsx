@@ -17,10 +17,11 @@ const CompanyItem = (props: CompanyType) => {
         <div className={styles.content}>
           <h2>{props.name}</h2>
           <address>{props.country}</address>
+          <h3>{props.description}</h3>
           <h3>{props.founding_date}</h3>
         </div>
         <div className={styles.actions}>
-          <button onClick={() => showDetailsHandler()}>Show Details</button>
+          <button onClick={() => showDetailsHandler()}>Edit</button>
         </div>
       </Card>
     </li>
