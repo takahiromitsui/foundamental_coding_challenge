@@ -8,7 +8,7 @@ import { CompanyType } from '../../types/types';
 
 const CompanyItem = (props: CompanyType) => {
   const router = useRouter();
-  const showDetailsHandler = () => {
+  const showEditHandler = () => {
     router.push('/' + props.id);
   };
   return (
@@ -21,7 +21,7 @@ const CompanyItem = (props: CompanyType) => {
           <h3>{props.founding_date}</h3>
         </div>
         <div className={styles.actions}>
-          <button onClick={() => showDetailsHandler()}>Edit</button>
+          <button onClick={() => showEditHandler()}>Edit</button>
         </div>
       </Card>
     </li>
