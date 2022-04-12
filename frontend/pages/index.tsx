@@ -1,7 +1,9 @@
 import type { NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { Fragment } from 'react';
 import CompanyList from '../components/companies/CompanyList';
+import { CompanyType } from '../types/types';
 
 const DUMMY_COMPANIES = [
   {
@@ -27,16 +29,43 @@ const DUMMY_COMPANIES = [
   },
 ];
 
-const Home: NextPage = () => {
+const Home: NextPage = (props: any) => {
   return (
     <Fragment>
       <Head>
         <title>Foundamental App</title>
         <meta name='description' content='Foundamental App' />
       </Head>
-      <CompanyList companies={DUMMY_COMPANIES} />
+      <CompanyList companies={props.companies} />
     </Fragment>
   );
+};
+// cannot fetch localhost:20002
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await fetch('http://localhost:20002/companies', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  let companies;
+  if (response.ok) {
+    companies = await response.json();
+  } else {
+    companies = DUMMY_COMPANIES
+  }
+  return {
+    props: {
+      companies: companies.map((company: CompanyType) => ({
+        id: company.id,
+        name: company.name,
+        country: company.country,
+        founding_date: company.founding_date,
+        description: company.description,
+      })),
+    },
+    revalidate: 1,
+  };
 };
 
 export default Home;
